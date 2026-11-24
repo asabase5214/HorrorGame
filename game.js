@@ -69,6 +69,7 @@ startBtn.addEventListener("click", () => {
     gameScreen.classList.remove("hidden");
 
     transitionToScene("start");
+    document.getElementById("scene-screen").requestFullscreen();
 });
 
 function transitionToScene(sceneId) {
