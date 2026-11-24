@@ -152,6 +152,11 @@ body::before {
     align-items: flex-end;
 }
 
+#scene-screen {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
 #overlay {
     width: 100%;
     padding: 2rem;
@@ -162,6 +167,14 @@ body::before {
         rgba(0, 0, 0, 0.95) 100%
     );
     color: white;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    max-height: 100vh;
+
+    overflow-y: auto;
 }
 
 #fade {
