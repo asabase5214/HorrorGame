@@ -228,22 +228,23 @@ button:hover {
     }
 }
 
-@media (orientation: landscape) and (max-height: 500px) {
+@media (orientation: landscape) and (max-height: 600px) {
 
     #scene-screen {
-        background-size: cover;
+        flex-direction: row;
+    }
+
+    #image-side {
+        width: 60%;
     }
 
     #overlay {
-        padding: 0.75rem;
-    }
+        width: 40%;
 
-    #scene-text {
-        font-size: 0.9rem;
-    }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    button {
-        padding: 8px;
-        font-size: 0.9rem;
+        overflow-y: auto;
     }
 }
