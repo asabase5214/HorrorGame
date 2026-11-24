@@ -239,12 +239,27 @@ button:hover {
     }
 
     #overlay {
-        width: 40%;
+        width: 30%;
+        margin-left: auto;
+        padding-right: 1rem;
 
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         overflow-y: auto;
+    }
+
+    #overlay {
+        gap: 0.5rem;
+    }
+
+    button {
+        padding: 8px 12px;
+        min-height: 40px;
+    }
+
+    #scene-text {
+        line-height: 1.3;
     }
 }
