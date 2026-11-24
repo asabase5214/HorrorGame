@@ -1,0 +1,194 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    background: black;
+    color: #d8d6cf;
+    font-family: "IBM Plex Sans", sans-serif;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        radial-gradient(
+            rgba(255,255,255,.02) 1px,
+            transparent 1px
+        );
+
+    background-size: 4px 4px;
+
+    pointer-events: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.fade-hidden {
+    opacity: 0;
+}
+
+.fade-visible {
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
+
+/* TITLE SCREEN */
+
+#title-screen {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #111,
+            #050505
+        );
+}
+
+#title-screen h1 {
+    font-size: 2.5rem;
+}
+
+/* GAME SCREEN */
+
+#game-screen {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    max-width: none;
+}
+
+#scene-image {
+    width: 100%;
+    border-radius: 0px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+#scene-text {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+#choices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+#image-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+#scene-image {
+    width: 100%;
+    display: block;
+
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+#image-container::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 40%;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(13,13,13,0),
+        rgba(13,13,13,1)
+    );
+
+    pointer-events: none;
+}
+
+#scene-screen {
+
+    width: 100vw;
+    height: 100vh;
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    align-items: flex-end;
+}
+
+#overlay {
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.25) 20%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.95) 100%
+    );
+    color: white;
+}
+
+#fade {
+    position: fixed;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    z-index: 9999;
+}
+
+#fade.active {
+    opacity: 1;
+}
+
+button {
+    background: transparent;
+    border: 1px solid #444;
+    color: #ddd;
+    padding: 16px;
+    text-align: center;
+    transition: .2s;
+    width: 50%;
+}
+
+button:hover {
+    background: #181818;
+    border-color: #777;
+}
