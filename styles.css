@@ -235,11 +235,15 @@ button:hover {
     }
 
     #image-side {
-        width: 40%;
+        width: 80%;
     }
 
     #overlay {
-        width: 30%;
+        #overlay {
+            width: 20% !important;
+            max-width: 20% !important;
+            flex: 0 0 20% !important;
+        }
         margin-left: auto;
         padding-right: 1rem;
 
