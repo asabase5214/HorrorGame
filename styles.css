@@ -205,3 +205,25 @@ button:hover {
     background: #181818;
     border-color: #777;
 }
+
+#rotate-warning {
+    display: none;
+}
+
+@media (orientation: portrait) {
+
+    #game-screen {
+        display: none !important;
+    }
+
+    #rotate-warning {
+        display: flex;
+
+        width: 100vw;
+        height: 100vh;
+
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+}
