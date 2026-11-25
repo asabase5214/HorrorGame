@@ -80,7 +80,7 @@ const sceneScreen = document.getElementById("scene-screen");
 
 // Audio
 
-let audio = new Audio('HorrorGameThemeTest.wav');
+let audio = new Audio('HorrorGameThemeTest.mp3');
 audio.loop = true;
 
 function playLoop() {
