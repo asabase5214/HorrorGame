@@ -4,26 +4,23 @@ const scenes = {
 
     start: {
         image: "Test.png",
-
         text: "First choice",
-
         choices: [
             {
                 text: "Choice 1",
-                nextScene: "scene1"
-            },
+            nextScene: "scene1"
+        },
             {
                 text: "Choice 2",
-                nextScene: "ending1"
-            }
-        ]
+            nextScene: "ending1"
+        }
+        ],
+        transition: "normal",
     },
 
     scene1: {
         image: "Test (1080 x 1350 px).png",
-
         text: "Second choice",
-
         choices: [
             {
                 text: "Choice A",
@@ -33,20 +30,20 @@ const scenes = {
                 text: "Choice B",
                 nextScene: "start"
             }
-        ]
+        ],
+        transition: "jumpscare"
     },
 
     ending1: {
         image: "Test (1080 x 1350 px) (1920 x 1920 px).png",
-
         text: "Ending 1",
-
         choices: [
             {
                 text: "Try Again",
                 nextScene: "title"
             }
-        ]
+        ],
+        transition: "normal"
     }
 };
 
@@ -164,6 +161,20 @@ optionsBtn.addEventListener("click", () => {
 
 // Functions
 
+function normalTransition(sceneId) {
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        loadScene(sceneId);
+
+        fade.classList.remove("active");
+
+    }, 800);
+
+}
+
 function transitionToScene(sceneId) {
 
     fade.classList.add("active");
@@ -173,13 +184,19 @@ function transitionToScene(sceneId) {
         return;
     }
 
-    setTimeout(() => {
+    const scene = scenes[sceneId];
 
-        loadScene(sceneId);
+    switch(scene.transition) {
 
-        fade.classList.remove("active");
+        case "jumpscare":
+            jumpscareTransition(sceneId);
+            break;
 
-    }, 800);
+        case "normal":
+        default:
+            normalTransition(sceneId);
+            break;
+    }
 
 }
 
@@ -231,15 +248,14 @@ function jumpscareTransition(sceneId) {
 
         loadScene(sceneId);
 
-        // DON'T fade back in yet
-
-    }, 1500); // longer pause
-
-    setTimeout(() => {
-
+        fade.style.transition = "none";
         fade.classList.remove("active");
 
-    }, 1600); // image appears almost instantly
+        setTimeout(() => {
+            fade.style.transition = "opacity 0.8s ease";
+        }, 10);
+
+    }, 2500);
 
 }
 
