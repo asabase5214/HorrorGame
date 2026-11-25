@@ -1,3 +1,5 @@
+// Scenes
+
 const scenes = {
 
     start: {
@@ -49,7 +51,12 @@ const scenes = {
 };
 
 
+
+// DOM Elements
+
 const startBtn = document.getElementById("start-btn");
+const optionsBtn = document.getElementById("options-btn");
+const creditsBtn = document.getElementById("credits-btn");
 const titleScreen = document.getElementById("title-screen");
 const gameScreen = document.getElementById("game-screen");
 
@@ -57,12 +64,38 @@ const sceneImage = document.getElementById("scene-image");
 const sceneText = document.getElementById("scene-text");
 const choicesDiv = document.getElementById("choices");
 
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modal-title");
+const modalBody = document.getElementById("modal-body");
+const closeModal = document.getElementById("close-modal");
+
+const clickSound = new Audio("mouseClick.mp3");
+clickSound.volume = 0.6;
+
 const fade = document.getElementById("fade");
 
 const sceneScreen = document.getElementById("scene-screen");
 
 
+
+// Audio
+
+let audio = new Audio('HorrorGameThemeTest.wav');
+audio.loop = true;
+
+function playLoop() {
+    audio.play().catch(e => console.error(e));
+}
+document.body.addEventListener('click', playLoop);
+
+
+
+// Event Listeners
+
 startBtn.addEventListener("click", () => {
+
+    clickSound.currentTime = 0;
+    clickSound.play();
 
     titleScreen.classList.add("hidden");
 
@@ -71,6 +104,65 @@ startBtn.addEventListener("click", () => {
     transitionToScene("start");
     document.getElementById("scene-screen").requestFullscreen();
 });
+
+closeModal.addEventListener("click", () => {
+
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+        modal.classList.add("hidden");
+    }, 400);
+
+});
+
+creditsBtn.addEventListener("click", () => {
+
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    modalTitle.textContent = "Credits";
+
+    modalBody.innerHTML = `
+        <p>credits</p>
+    `;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("show");
+
+});
+
+optionsBtn.addEventListener("click", () => {
+
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    modalTitle.textContent = "Options";
+
+    modalBody.innerHTML = `
+        <p>Music Volume</p>
+
+        <input type="range" min="0" max="100" value="30" id="volume-slider">
+        `;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("show");
+
+    const slider = document.getElementById("volume-slider");
+
+    slider.addEventListener("input", () => {
+
+        audio.volume =
+            slider.value / 100;
+
+    });
+
+});
+
+
+// Functions
 
 function transitionToScene(sceneId) {
 
