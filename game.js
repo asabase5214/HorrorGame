@@ -4,7 +4,7 @@ const scenes = {
 
     entrance: {
 
-        image: "HorrorPhotos/entrance.jpeg",
+        image: "/HorrorPhotos/entrance.jpeg",
 
         text:
             "The trail disappears into the woods.",
