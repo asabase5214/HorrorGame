@@ -2,49 +2,66 @@
 
 const scenes = {
 
-    start: {
-        image: "Test.png",
-        text: "First choice",
-        choices: [
-            {
-                text: "Choice 1",
-            nextScene: "scene1"
-        },
-            {
-                text: "Choice 2",
-            nextScene: "ending1"
-        }
-        ],
+    entrance: {
+
+        image: "HorrorPhotos/entrance.jpeg",
+
+        text:
+            "The trail disappears into the woods.",
+
         transition: "normal",
-    },
 
-    scene1: {
-        image: "Test (1080 x 1350 px).png",
-        text: "Second choice",
         choices: [
             {
-                text: "Choice A",
-                nextScene: "start"
+                text: "Forward",
+                nextScene: "path01"
+            }
+        ]
+
+    },
+
+    path01: {
+
+        image: "HorrorPhotos/path01-1.jpeg",
+
+        transition: "move",
+
+        choices: [
+            {
+                text: "Forward",
+                nextScene: "clearing"
             },
+
             {
-                text: "Choice B",
-                nextScene: "start"
+                text: "Back",
+                nextScene: "entrance"
             }
-        ],
-        transition: "jumpscare"
+        ]
+
     },
 
-    ending1: {
-        image: "Test (1080 x 1350 px) (1920 x 1920 px).png",
-        text: "Ending 1",
+    clearing: {
+        image: "HorrorPhotos/clearing01.jpeg",
+
+        text: "The trail splits into two paths.",
+
+        transition: "normal",
+
         choices: [
             {
-                text: "Try Again",
-                nextScene: "title"
+                image: "HorrorPhotos/path01-2.jpeg",
+                label: "Left Path",
+                nextScene: "left01"
+            },
+
+            {
+                image: "HorrorPhotos/path01-3.jpeg",
+                label: "Right Path",
+                nextScene: "right01"
             }
-        ],
-        transition: "normal"
+        ]
     }
+
 };
 
 
@@ -66,7 +83,9 @@ const modalTitle = document.getElementById("modal-title");
 const modalBody = document.getElementById("modal-body");
 const closeModal = document.getElementById("close-modal");
 
-const clickSound = new Audio("mouseClick.mp3");
+const staticScreen = document.getElementById("static-screen");
+
+const clickSound = new Audio("Audio/mouseClick.mp3");
 clickSound.volume = 0.6;
 
 const fade = document.getElementById("fade");
@@ -77,7 +96,7 @@ const sceneScreen = document.getElementById("scene-screen");
 
 // Audio
 
-let audio = new Audio('HorrorGameThemeTest.mp3');
+let audio = new Audio('Audio/HorrorGameThemeTest.mp3');
 audio.loop = true;
 
 function playLoop() {
@@ -98,7 +117,7 @@ startBtn.addEventListener("click", () => {
 
     gameScreen.classList.remove("hidden");
 
-    transitionToScene("start");
+    transitionToScene("entrance");
     document.getElementById("scene-screen").requestFullscreen();
 });
 
@@ -161,23 +180,7 @@ optionsBtn.addEventListener("click", () => {
 
 // Functions
 
-function normalTransition(sceneId) {
-
-    fade.classList.add("active");
-
-    setTimeout(() => {
-
-        loadScene(sceneId);
-
-        fade.classList.remove("active");
-
-    }, 800);
-
-}
-
 function transitionToScene(sceneId) {
-
-    fade.classList.add("active");
 
     if (sceneId === "title") {
         returnToTitle();
@@ -192,11 +195,56 @@ function transitionToScene(sceneId) {
             jumpscareTransition(sceneId);
             break;
 
+        case "longPause":
+            longPauseTransition(sceneId);
+            break;
+
+        case "quick":
+            quickTransition(sceneId);
+            break;
+
+        case "longFade":
+            longFadeTransition(sceneId);
+            break;
+
+        case "static":
+            staticTransition(sceneId);
+            break;
+
+        case "glimpse":
+            glimpseTransition(sceneId, scene.glimpseImage);
+            break;
+
+        case "reverseFade":
+            reverseFadeTransition(sceneId);
+            break;
+
+        case "drift":
+            driftTransition(sceneId);
+            break;
+
+        case "echo":
+            echoTransition(sceneId);
+            break;
+
         case "normal":
         default:
             normalTransition(sceneId);
             break;
     }
+}
+
+function normalTransition(sceneId) {
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        loadScene(sceneId);
+
+        fade.classList.remove("active");
+
+    }, 800);
 
 }
 
@@ -218,15 +266,37 @@ function loadScene(sceneId) {
 
     scene.choices.forEach(choice => {
 
-        const button = document.createElement("button");
+        if (choice.image) {
 
-        button.textContent = choice.text;
+            const card = document.createElement("div");
 
-        button.addEventListener("click", () => {
-            transitionToScene(choice.nextScene);
-        });
+            card.classList.add("path-card");
 
-        choicesDiv.appendChild(button);
+            card.innerHTML = `
+                <img src="${choice.image}">
+                <p>${choice.label}</p>
+            `;
+
+            card.addEventListener("click", () => {
+                transitionToScene(choice.nextScene);
+            });
+
+            choicesDiv.appendChild(card);
+
+        } else {
+
+            const button = document.createElement("button");
+
+            button.textContent = choice.text;
+
+            button.addEventListener("click", () => {
+                transitionToScene(choice.nextScene);
+            });
+
+            choicesDiv.appendChild(button);
+
+        }
+
     });
 
     setTimeout(() => {
@@ -239,6 +309,23 @@ function loadScene(sceneId) {
         choicesDiv.classList.add("fade-visible");
     }, 600);
 }
+
+function returnToTitle() {
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        gameScreen.classList.add("hidden");
+        titleScreen.classList.remove("hidden");
+
+        fade.classList.remove("active");
+
+    }, 800);
+
+}
+
+// Special Functions
 
 function jumpscareTransition(sceneId) {
 
@@ -259,16 +346,163 @@ function jumpscareTransition(sceneId) {
 
 }
 
-function returnToTitle() {
+function longPauseTransition(sceneId) {
 
     fade.classList.add("active");
 
     setTimeout(() => {
 
-        gameScreen.classList.add("hidden");
-        titleScreen.classList.remove("hidden");
+        loadScene(sceneId);
 
         fade.classList.remove("active");
+
+    }, 2500);
+
+}
+
+function quickTransition(sceneId) {
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        loadScene(sceneId);
+
+        fade.classList.remove("active");
+
+    }, 300);
+
+}
+
+function longFadeTransition(sceneId) {
+
+    fade.style.transition = "opacity 2s ease";
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        loadScene(sceneId);
+
+        fade.classList.remove("active");
+
+        setTimeout(() => {
+            fade.style.transition = "opacity 0.8s ease";
+        }, 2000);
+
+    }, 2000);
+
+}
+
+function staticTransition(sceneId) {
+
+    setTimeout(() => {
+
+        fade.classList.remove("active");
+
+        setTimeout(() => {
+
+            staticScreen.style.opacity = "1";
+
+            setTimeout(() => {
+
+                staticScreen.style.opacity = "0";
+
+                loadScene(sceneId);
+
+            }, 300);
+
+        }, 800);
+
+    }, 800);
+
+}
+
+function glimpseTransition(sceneId, glimpseImage) {
+
+    const glimpse =
+        document.getElementById("glimpse-screen");
+
+    glimpse.style.backgroundImage =
+        `url(${glimpseImage})`;
+
+    glimpse.style.opacity = "1";
+
+    setTimeout(() => {
+
+        glimpse.style.opacity = "0";
+
+        loadScene(sceneId);
+
+    }, 1000);
+
+}
+
+function reverseFadeTransition(sceneId) {
+
+    const whiteFade = document.getElementById("white-fade");
+
+    console.log("reverse fade");
+    console.log(whiteFade);
+
+    setTimeout(() => {
+
+        whiteFade.style.opacity = "1";
+        console.log(
+            window.getComputedStyle(whiteFade).opacity
+        );
+
+        setTimeout(() => {
+
+            loadScene(sceneId);
+
+            whiteFade.style.opacity = "0";
+
+        }, 1500);
+
+    }, 1000);
+
+}
+
+function driftTransition(sceneId) {
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        loadScene(sceneId);
+
+    }, 3000);
+
+    setTimeout(() => {
+
+        fade.classList.remove("active");
+
+    }, 3800);
+
+}
+
+function echoTransition(sceneId) {
+
+    fade.classList.add("active");
+
+    setTimeout(() => {
+
+        loadScene(sceneId);
+
+        fade.classList.remove("active");
+
+        setTimeout(() => {
+
+            fade.classList.add("active");
+
+            setTimeout(() => {
+
+                fade.classList.remove("active");
+
+            }, 150);
+
+        }, 100);
 
     }, 800);
 
