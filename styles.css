@@ -139,6 +139,51 @@ body::before {
     transform: translateY(0);
 }
 
+#static-screen {
+    position: fixed;
+    inset: 0;
+
+    background-image: url("static.png");
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 10000;
+}
+
+#glimpse-screen {
+
+    position: fixed;
+    inset: 0;
+
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0;
+
+    z-index: 10000;
+
+    pointer-events: none;
+}
+
+#white-fade {
+    position: fixed;
+    inset: 0;
+
+    background: red;
+
+    opacity: 0;
+
+    z-index: 999999;
+}
+
+#white-fade,
+#glimpse-screen,
+#static-screen {
+    transition: opacity 0.2s ease;
+}
+
 input[type="range"] {
 
     width: 100%;
@@ -195,10 +240,45 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #choices {
+
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    gap: 20px;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+}
+
+.path-card {
+    width: 250px;
+    overflow: hidden;
+}
+
+.path-card:hover {
+
+    transform: scale(1.03);
+
+    border-color: white;
+
+}
+
+.path-card img {
+
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+}
+
+.path-card p {
+
+    text-align: center;
+
+    padding: 10px;
+
 }
 
 #image-container {
